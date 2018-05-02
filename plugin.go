@@ -57,6 +57,13 @@ func (p Plugin) Exec() error {
 				InsecureSkipVerify: p.Config.SkipVerify,
 			},
 		},
+		CheckRedirect: func(req *http.Request, via []*http.Request) error {
+			if p.Config.Username != "" && p.Config.Password != "" {
+				req.SetBasicAuth(p.Config.Username, p.Config.Password)
+			}
+
+			return nil
+		},
 	}
 
 	req, err := http.NewRequest(
