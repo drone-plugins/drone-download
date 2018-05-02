@@ -88,6 +88,10 @@ func (p Plugin) Exec() error {
 
 	defer resp.Body.Close()
 
+	if resp.StatusCode != http.StatusOK {
+		return errors.Errorf("request failed, status %s", http.StatusText(resp.StatusCode))
+	}
+
 	target, err := os.Create(destination)
 
 	if err != nil {
