@@ -32,6 +32,11 @@ func main() {
 			EnvVar: "PLUGIN_DESTINATION",
 		},
 		cli.StringFlag{
+			Name:   "authorization",
+			Usage:  "value to send in the authorization header",
+			EnvVar: "PLUGIN_AUTHORIZATION,DOWNLOAD_AUTHORIZATION",
+		},
+		cli.StringFlag{
 			Name:   "username",
 			Usage:  "username for basic auth",
 			EnvVar: "PLUGIN_USERNAME,DOWNLOAD_USERNAME",
@@ -66,13 +71,14 @@ func main() {
 func run(c *cli.Context) error {
 	plugin := Plugin{
 		Config: Config{
-			Source:      c.String("source"),
-			Destination: c.String("destination"),
-			Username:    c.String("username"),
-			Password:    c.String("password"),
-			SkipVerify:  c.Bool("skip-verify"),
-			MD5:         c.String("md5-checksum"),
-			SHA265:      c.String("sha265-checksum"),
+			Source:        c.String("source"),
+			Destination:   c.String("destination"),
+			Authorization: c.String("authorization"),
+			Username:      c.String("username"),
+			Password:      c.String("password"),
+			SkipVerify:    c.Bool("skip-verify"),
+			MD5:           c.String("md5-checksum"),
+			SHA265:        c.String("sha265-checksum"),
 		},
 	}
 

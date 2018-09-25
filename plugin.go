@@ -19,13 +19,14 @@ import (
 
 type (
 	Config struct {
-		Source      string
-		Destination string
-		Username    string
-		Password    string
-		SkipVerify  bool
-		MD5         string
-		SHA265      string
+		Source        string
+		Destination   string
+		Authorization string
+		Username      string
+		Password      string
+		SkipVerify    bool
+		MD5           string
+		SHA265        string
 	}
 
 	Plugin struct {
@@ -61,7 +62,9 @@ func (p Plugin) Exec() error {
 			if p.Config.Username != "" && p.Config.Password != "" {
 				req.SetBasicAuth(p.Config.Username, p.Config.Password)
 			}
-
+			if p.Config.Authorization != "" {
+				req.Header.Add("Authorization", p.Config.Authorization)
+			}
 			return nil
 		},
 	}
@@ -78,6 +81,10 @@ func (p Plugin) Exec() error {
 
 	if p.Config.Username != "" && p.Config.Password != "" {
 		req.SetBasicAuth(p.Config.Username, p.Config.Password)
+	}
+
+	if p.Config.Authorization != "" {
+		req.Header.Add("Authorization", p.Config.Authorization)
 	}
 
 	resp, err := client.Do(req)
