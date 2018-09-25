@@ -130,7 +130,7 @@ func (p Plugin) Exec() error {
 
 		check := fmt.Sprintf("%x", h.Sum(nil))
 
-		if p.Config.MD5 != check {
+		if p.Config.SHA256 != check {
 			return fmt.Errorf("checksum doesn't match, got %s and expected %s", check, p.Config.SHA256)
 		}
 	}
