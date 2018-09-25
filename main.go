@@ -59,7 +59,7 @@ func main() {
 		cli.StringFlag{
 			Name:   "sha256-checksum",
 			Usage:  "checksum in sha256 format",
-			EnvVar: "PLUGIN_SHA256",
+			EnvVar: "PLUGIN_SHA256,PLUGIN_SHA265",
 		},
 	}
 
