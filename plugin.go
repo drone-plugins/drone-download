@@ -26,7 +26,7 @@ type (
 		Password      string
 		SkipVerify    bool
 		MD5           string
-		SHA265        string
+		SHA256        string
 	}
 
 	Plugin struct {
@@ -121,7 +121,7 @@ func (p Plugin) Exec() error {
 		}
 	}
 
-	if p.Config.SHA265 != "" {
+	if p.Config.SHA256 != "" {
 		h := sha256.New()
 
 		if _, err := io.Copy(h, resp.Body); err != nil {
@@ -131,7 +131,7 @@ func (p Plugin) Exec() error {
 		check := fmt.Sprintf("%x", h.Sum(nil))
 
 		if p.Config.MD5 != check {
-			return fmt.Errorf("checksum doesn't match, got %s and expected %s", check, p.Config.SHA265)
+			return fmt.Errorf("checksum doesn't match, got %s and expected %s", check, p.Config.SHA256)
 		}
 	}
 

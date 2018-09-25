@@ -57,9 +57,9 @@ func main() {
 			EnvVar: "PLUGIN_MD5",
 		},
 		cli.StringFlag{
-			Name:   "sha265-checksum",
-			Usage:  "checksum in sha265 format",
-			EnvVar: "PLUGIN_SHA265",
+			Name:   "sha256-checksum",
+			Usage:  "checksum in sha256 format",
+			EnvVar: "PLUGIN_SHA256",
 		},
 	}
 
@@ -78,7 +78,7 @@ func run(c *cli.Context) error {
 			Password:      c.String("password"),
 			SkipVerify:    c.Bool("skip-verify"),
 			MD5:           c.String("md5-checksum"),
-			SHA265:        c.String("sha265-checksum"),
+			SHA256:        c.String("sha256-checksum"),
 		},
 	}
 
