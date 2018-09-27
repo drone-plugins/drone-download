@@ -107,38 +107,44 @@ func (p Plugin) Exec() error {
 
 	defer target.Close()
 
+	_, err = io.Copy(target, resp.Body)
+
+	if err != nil {
+		return errors.Wrap(err, "copying destination failed")
+	}
+
 	if p.Config.MD5 != "" {
 		h := md5.New()
+		target.Seek(0, 0)
 
-		if _, err := io.Copy(h, resp.Body); err != nil {
+		if _, err := io.Copy(h, target); err != nil {
+			defer os.Remove(target.Name())
 			return errors.Wrap(err, "failed to compare checksum")
 		}
 
 		check := fmt.Sprintf("%x", h.Sum(nil))
 
 		if p.Config.MD5 != check {
+			defer os.Remove(target.Name())
 			return fmt.Errorf("checksum doesn't match, got %s and expected %s", check, p.Config.MD5)
 		}
 	}
 
 	if p.Config.SHA256 != "" {
 		h := sha256.New()
+		target.Seek(0, 0)
 
-		if _, err := io.Copy(h, resp.Body); err != nil {
+		if _, err := io.Copy(h, target); err != nil {
+			defer os.Remove(target.Name())
 			return errors.Wrap(err, "failed to compare checksum")
 		}
 
 		check := fmt.Sprintf("%x", h.Sum(nil))
 
 		if p.Config.SHA256 != check {
+			defer os.Remove(target.Name())
 			return fmt.Errorf("checksum doesn't match, got %s and expected %s", check, p.Config.SHA256)
 		}
-	}
-
-	_, err = io.Copy(target, resp.Body)
-
-	if err != nil {
-		return errors.Wrap(err, "copying destination failed")
 	}
 
 	return nil
