@@ -7,7 +7,6 @@
 [![](https://images.microbadger.com/badges/image/plugins/download.svg)](https://microbadger.com/images/plugins/download "Get your own image badge on microbadger.com")
 [![Go Doc](https://godoc.org/github.com/drone-plugins/drone-download?status.svg)](http://godoc.org/github.com/drone-plugins/drone-download)
 [![Go Report](https://goreportcard.com/badge/github.com/drone-plugins/drone-download)](https://goreportcard.com/report/github.com/drone-plugins/drone-download)
-[![](https://images.microbadger.com/badges/image/plugins/download.svg)](https://microbadger.com/images/plugins/download "Get your own image badge on microbadger.com")
 
 Drone plugin to download files required for a build, also makes it possible to inject basic authentication in a secure way. For the usage information and a listing of the available options please take a look at [the docs](http://plugins.drone.io/drone-plugins/drone-download/).
 
