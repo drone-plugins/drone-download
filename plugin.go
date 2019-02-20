@@ -52,7 +52,7 @@ func (p Plugin) Exec() error {
 	default:
 		err = os.MkdirAll(filepath.Dir(destination), os.ModePerm)
 		if err != nil {
-			return errors.Wrap(err, "parsing destination failed")
+			return errors.Wrap(err, "creating directory failed")
 		}
 	}
 
