@@ -47,11 +47,8 @@ func (p Plugin) Exec() error {
 	case destination == "":
 		destination = path.Base(u.Path)
 	case destination[len(destination)-1] == filepath.Separator:
-		err = os.MkdirAll(destination, os.ModePerm)
-		if err != nil {
-			return errors.Wrap(err, "parsing destination failed")
-		}
 		destination = destination + path.Base(u.Path)
+		fallthrough
 	default:
 		err = os.MkdirAll(filepath.Dir(destination), os.ModePerm)
 		if err != nil {
