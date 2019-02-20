@@ -11,7 +11,7 @@ import (
 	"net/url"
 	"os"
 	"path"
-	"strings"
+	"path/filepath"
 	"time"
 
 	"github.com/jackspirou/syscerts"
@@ -38,25 +38,25 @@ type (
 func (p Plugin) Exec() error {
 	destination := p.Config.Destination
 
-	if destination == "" {
-		u, err := url.Parse(p.Config.Source)
+	u, err := url.Parse(p.Config.Source)
+	if err != nil {
+		return errors.Wrap(err, "parsing source failed")
+	}
 
-		if err != nil {
-			return errors.Wrap(err, "parsing source failed")
-		}
-
+	switch {
+	case destination == "":
 		destination = path.Base(u.Path)
-	} else if destination[len(destination)-1] == '/' {
-		_ = os.MkdirAll(destination, os.ModePerm)
-		u, err := url.Parse(p.Config.Source)
-
+	case destination[len(destination)-1] == filepath.Separator:
+		err = os.MkdirAll(destination, os.ModePerm)
 		if err != nil {
-			return errors.Wrap(err, "parsing source failed")
+			return errors.Wrap(err, "parsing destination failed")
 		}
-
 		destination = destination + path.Base(u.Path)
-	} else {
-		_ = os.MkdirAll(destination[0:strings.LastIndex(destination, "/")], os.ModePerm)
+	default:
+		err = os.MkdirAll(filepath.Dir(destination), os.ModePerm)
+		if err != nil {
+			return errors.Wrap(err, "parsing destination failed")
+		}
 	}
 
 	log.Printf("downloading to %s", destination)
