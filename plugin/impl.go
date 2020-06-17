@@ -17,6 +17,8 @@ import (
 	"path"
 	"path/filepath"
 	"strings"
+
+	"github.com/sirupsen/logrus"
 )
 
 // Settings for the plugin.
@@ -84,6 +86,11 @@ func (p *Plugin) Execute() error {
 		return nil
 	}
 
+	logrus.WithFields(logrus.Fields{
+		"source":      p.settings.Source,
+		"destination": p.settings.destination,
+	}).Info("Downloading file")
+
 	resp, err := client.Do(req)
 	if err != nil {
 		return fmt.Errorf("executing request failed: %w", err)
@@ -106,17 +113,21 @@ func (p *Plugin) Execute() error {
 	}
 
 	var h hash.Hash
+	alg := ""
 	exp := ""
 
 	if p.settings.SHA256 != "" {
 		exp = p.settings.SHA256
+		alg = "SHA256"
 		h = sha256.New()
 	} else if p.settings.MD5 != "" {
 		exp = p.settings.MD5
+		alg = "MD5"
 		h = md5.New()
 	}
 
 	if exp != "" {
+		logrus.WithField("hash", alg).Info("Computing checksum")
 		target.Seek(0, 0)
 
 		if _, err := io.Copy(h, target); err != nil {
@@ -130,6 +141,7 @@ func (p *Plugin) Execute() error {
 			defer os.Remove(target.Name())
 			return fmt.Errorf("checksum doesn't match, got %s and expected %s", check, exp)
 		}
+		logrus.WithField("checksum", check).Info("Checksum matched")
 	}
 
 	return nil
