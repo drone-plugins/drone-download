@@ -1,5 +1,5 @@
 # escape=`
-FROM plugins/base:windows-1803
+FROM plugins/base:windows-1803@sha256:9a053fd23805e2f9e9c7c379a4a13b99041290c14bce1787bd59d9e73a791b80
 
 LABEL maintainer="Drone.IO Community <drone-dev@googlegroups.com>" `
   org.label-schema.name="Drone Download" `
