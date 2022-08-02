@@ -34,9 +34,10 @@ def testing(ctx):
     'steps': [
       {
         'name': 'staticcheck',
-        'image': 'golang:1.15',
+        'image': 'golang:1.18',
         'pull': 'always',
         'commands': [
+          'go get honnef.co/go/tools/cmd/staticcheck',
           'go run honnef.co/go/tools/cmd/staticcheck ./...',
         ],
         'volumes': [
@@ -48,9 +49,10 @@ def testing(ctx):
       },
       {
         'name': 'lint',
-        'image': 'golang:1.15',
+        'image': 'golang:1.18',
         'pull': 'always',
         'commands': [
+          'go get golang.org/x/lint/golint',
           'go run golang.org/x/lint/golint -set_exit_status ./...',
         ],
         'volumes': [
@@ -62,7 +64,7 @@ def testing(ctx):
       },
       {
         'name': 'vet',
-        'image': 'golang:1.15',
+        'image': 'golang:1.18',
         'pull': 'always',
         'commands': [
           'go vet ./...',
@@ -76,7 +78,7 @@ def testing(ctx):
       },
       {
         'name': 'test',
-        'image': 'golang:1.15',
+        'image': 'golang:1.18',
         'pull': 'always',
         'commands': [
           'go test -cover ./...',
@@ -147,7 +149,7 @@ def linux(ctx, arch):
     'steps': [
       {
         'name': 'environment',
-        'image': 'golang:1.15',
+        'image': 'golang:1.18',
         'pull': 'always',
         'environment': {
           'CGO_ENABLED': '0',
@@ -159,7 +161,7 @@ def linux(ctx, arch):
       },
       {
         'name': 'build',
-        'image': 'golang:1.15',
+        'image': 'golang:1.18',
         'pull': 'always',
         'environment': {
           'CGO_ENABLED': '0',
@@ -168,7 +170,7 @@ def linux(ctx, arch):
       },
       {
         'name': 'executable',
-        'image': 'golang:1.15',
+        'image': 'golang:1.18',
         'pull': 'always',
         'commands': [
           './release/linux/%s/drone-download --help' % (arch),
