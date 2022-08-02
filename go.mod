@@ -1,6 +1,6 @@
 module github.com/drone-plugins/drone-download
 
-go 1.18
+go 1.19
 
 require (
 	github.com/drone-plugins/drone-plugin-lib v0.4.0
