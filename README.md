@@ -14,7 +14,7 @@ Drone plugin to download files required for a build, also makes it possible to i
 
 Build the binary with the following command:
 
-```console
+```bash
 export GOOS=linux
 export GOARCH=amd64
 export CGO_ENABLED=0
@@ -27,7 +27,7 @@ go build -v -a -tags netgo -o release/linux/amd64/drone-download ./cmd/drone-dow
 
 Build the Docker image with the following command:
 
-```console
+```bash
 docker build \
   --label org.label-schema.build-date=$(date -u +"%Y-%m-%dT%H:%M:%SZ") \
   --label org.label-schema.vcs-ref=$(git rev-parse --short HEAD) \
@@ -36,7 +36,7 @@ docker build \
 
 ## Usage
 
-```
+```bash
 docker run --rm \
   -e PLUGIN_SOURCE=https://github.com/drone/drone-cli/releases/download/v0.8.5/drone_linux_amd64.tar.gz \
   -e PLUGIN_DESTINATION=drone_linux.tar.gz \
