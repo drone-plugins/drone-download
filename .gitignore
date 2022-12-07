@@ -1,5 +1,3 @@
 /release/
 /drone-download*
-
 coverage.out
-.drone.yml
