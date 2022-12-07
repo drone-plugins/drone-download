@@ -128,7 +128,7 @@ func (p *Plugin) Execute() error {
 
 	if exp != "" {
 		logrus.WithField("hash", alg).Info("Computing checksum")
-		target.Seek(0, 0)
+		_, _ = target.Seek(0, 0)
 
 		if _, err := io.Copy(h, target); err != nil {
 			defer os.Remove(target.Name())
