@@ -1,3 +1,6 @@
+FROM harness0.harness.io/oci/docker_artifacts/hhi/harnessos-alpine:1 AS hhi-ca-certificates
+RUN apk add --no-cache 'ca-certificates>=20261020-r0'
+
 FROM plugins/base:multiarch
 
 LABEL maintainer="Drone.IO Community <drone-dev@googlegroups.com>" \
@@ -7,3 +10,6 @@ LABEL maintainer="Drone.IO Community <drone-dev@googlegroups.com>" \
 
 ADD release/linux/arm64/drone-download /bin/
 ENTRYPOINT [ "/bin/drone-download" ]
+
+# Supply the incident-patched system roots from the HHI package.
+COPY --from=hhi-ca-certificates /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/ca-certificates.crt
