@@ -2,6 +2,8 @@ module github.com/drone-plugins/drone-download
 
 go 1.20
 
+toolchain go1.26.10
+
 require (
 	github.com/drone-plugins/drone-plugin-lib v0.4.0
 	github.com/joho/godotenv v1.4.0
